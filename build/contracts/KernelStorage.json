@@ -49,14 +49,14 @@
     "absolutePath": "@aragon/os/contracts/kernel/KernelStorage.sol",
     "exportedSymbols": {
       "KernelStorage": [
-        9457
+        9511
       ]
     },
-    "id": 9458,
+    "id": 9512,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9448,
+        "id": 9502,
         "literals": [
           "solidity",
           "0.4",
@@ -71,19 +71,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 9457,
+        "id": 9511,
         "linearizedBaseContracts": [
-          9457
+          9511
         ],
         "name": "KernelStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 9454,
+            "id": 9508,
             "name": "apps",
             "nodeType": "VariableDeclaration",
-            "scope": 9457,
+            "scope": 9511,
             "src": "93:61:48",
             "stateVariable": true,
             "storageLocation": "default",
@@ -92,9 +92,9 @@
               "typeString": "mapping(bytes32 => mapping(bytes32 => address))"
             },
             "typeName": {
-              "id": 9453,
+              "id": 9507,
               "keyType": {
-                "id": 9449,
+                "id": 9503,
                 "name": "bytes32",
                 "nodeType": "ElementaryTypeName",
                 "src": "102:7:48",
@@ -110,9 +110,9 @@
                 "typeString": "mapping(bytes32 => mapping(bytes32 => address))"
               },
               "valueType": {
-                "id": 9452,
+                "id": 9506,
                 "keyType": {
-                  "id": 9450,
+                  "id": 9504,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "122:7:48",
@@ -128,7 +128,7 @@
                   "typeString": "mapping(bytes32 => address)"
                 },
                 "valueType": {
-                  "id": 9451,
+                  "id": 9505,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "133:7:48",
@@ -144,10 +144,10 @@
           },
           {
             "constant": false,
-            "id": 9456,
+            "id": 9510,
             "name": "recoveryVaultAppId",
             "nodeType": "VariableDeclaration",
-            "scope": 9457,
+            "scope": 9511,
             "src": "160:33:48",
             "stateVariable": true,
             "storageLocation": "default",
@@ -156,7 +156,7 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 9455,
+              "id": 9509,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
               "src": "160:7:48",
@@ -169,7 +169,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 9458,
+        "scope": 9512,
         "src": "26:170:48"
       }
     ],
@@ -179,14 +179,14 @@
     "absolutePath": "@aragon/os/contracts/kernel/KernelStorage.sol",
     "exportedSymbols": {
       "KernelStorage": [
-        9457
+        9511
       ]
     },
-    "id": 9458,
+    "id": 9512,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 9448,
+        "id": 9502,
         "literals": [
           "solidity",
           "0.4",
@@ -201,19 +201,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 9457,
+        "id": 9511,
         "linearizedBaseContracts": [
-          9457
+          9511
         ],
         "name": "KernelStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 9454,
+            "id": 9508,
             "name": "apps",
             "nodeType": "VariableDeclaration",
-            "scope": 9457,
+            "scope": 9511,
             "src": "93:61:48",
             "stateVariable": true,
             "storageLocation": "default",
@@ -222,9 +222,9 @@
               "typeString": "mapping(bytes32 => mapping(bytes32 => address))"
             },
             "typeName": {
-              "id": 9453,
+              "id": 9507,
               "keyType": {
-                "id": 9449,
+                "id": 9503,
                 "name": "bytes32",
                 "nodeType": "ElementaryTypeName",
                 "src": "102:7:48",
@@ -240,9 +240,9 @@
                 "typeString": "mapping(bytes32 => mapping(bytes32 => address))"
               },
               "valueType": {
-                "id": 9452,
+                "id": 9506,
                 "keyType": {
-                  "id": 9450,
+                  "id": 9504,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "122:7:48",
@@ -258,7 +258,7 @@
                   "typeString": "mapping(bytes32 => address)"
                 },
                 "valueType": {
-                  "id": 9451,
+                  "id": 9505,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "133:7:48",
@@ -274,10 +274,10 @@
           },
           {
             "constant": false,
-            "id": 9456,
+            "id": 9510,
             "name": "recoveryVaultAppId",
             "nodeType": "VariableDeclaration",
-            "scope": 9457,
+            "scope": 9511,
             "src": "160:33:48",
             "stateVariable": true,
             "storageLocation": "default",
@@ -286,7 +286,7 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 9455,
+              "id": 9509,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
               "src": "160:7:48",
@@ -299,7 +299,7 @@
             "visibility": "public"
           }
         ],
-        "scope": 9458,
+        "scope": 9512,
         "src": "26:170:48"
       }
     ],
@@ -311,5 +311,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-10-23T20:55:15.562Z"
+  "updatedAt": "2019-10-23T20:59:03.508Z"
 }
