@@ -228,7 +228,7 @@ contract Challenge is IForwarder, AragonApp {
     * @dev IForwarder interface conformance
     * @param _evmScript Start proposal with script
     */
-    function forward(bytes _evmScript) auth(PROPOSE_ROLE) public {
+    function forward(bytes _evmScript) public {
         require(canForward(msg.sender, _evmScript), ERROR_PERMISSION);
         _propose(_evmScript, "");
     }
