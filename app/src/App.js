@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import {
-  AppBar, Button, Card, CardLayout, Checkbox, Field, GU, Header, IconArrowRight,
+  Bar, BackButton, Button, Card, CardLayout, Checkbox, Field, GU, Header, IconArrowRight,
   Info, Main, Modal, SidePanel, Text, TextInput, theme
 } from '@aragon/ui'
 import BigNumber from 'bignumber.js'
-import { NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_ENDED} from './constants'
+import { NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_ENDED, statuses } from './constants'
 const proposalComponents = {
   PROPOSED: Proposed,
   CHALLENGED: Challenged,
@@ -17,7 +17,7 @@ const proposalComponents = {
 
 export default function App() {
   const { api, appState } = useAragonApi()
-  const { proposals = [], syncing } = appState
+  const { proposals = [], challengeTime, syncing } = appState
   const [selected, setSelected] = useState()
   // console.log(appState)
   return (
@@ -35,15 +35,29 @@ function Proposals({proposals, onSelect}){
     <section>
       <h2 size="xlarge">Proposals:</h2>
       <CardLayout columnWidthMin={30 * GU} rowHeight={250}>
-        {proposals.map((p, i)=><Proposal proposal={proposal} onSelect={onSelect} />)}
+        {proposals.map((p)=><Proposal key={p.id} proposal={p} onSelect={onSelect} />)}
       </CardLayout>
     </section>
   )
 }
 
 function Proposal({proposal, onSelect}){
-  let Dynamic = proposalComponents[proposal.status]
-  const [opened, setOpened] = useState(false)
+  const { api, appState } = useAragonApi()
+  const [status, setStatus] = useState(proposal.status)
+  useEffect(()=>{
+    if([ACCEPT_ENDED, REJECT_ENDED].includes(proposal.status))
+      return
+
+    let checkStatus = setInterval(async ()=>{
+      const statusId = await api.call('statusOf', proposal.id).toPromise()
+      const status = statuses[statusId]
+      proposal.status = status
+      setStatus(status)
+      if([ACCEPT_ENDED, REJECT_ENDED].includes(status))
+        clearInterval(checkStatus)
+    }, 10000)
+  },[])
+
   return (
     <Card css={`
         display: grid;
@@ -55,22 +69,38 @@ function Proposal({proposal, onSelect}){
     `} onClick={()=>onSelect(proposal)}>
       <header style={{display: "flex", justifyContent: "space-between"}}>
         <Text color={theme.textTertiary}>#{proposal.id} </Text>
-        <Text>{proposal.description}</Text>
         <IconArrowRight color={theme.textTertiary} />
       </header>
       <section>
+        <Text>{proposal.description}</Text>
         <Text>{proposal.status}</Text>
-        <Dynamic {...proposal} />
+        <Text>{proposal.end.getTime()}</Text>
       </section>
-      <footer style={{display: "flex", justifyContent: "flex-end"}}>
-        {!awarded && userData &&
-        <Button mode="strong" emphasis="positive" onClick={(e)=>{e.stopPropagation();api.award(id, connectedAccount, userData.amount, userData.proof).toPromise()}}>Claim</Button>}
-      </footer>
+      {proposalState({status,proposal})}
     </Card>
   )
 }
 
+function proposalState({status, proposal}){
+  switch(status){
+    case PROPOSED:
+      return <Proposed {...proposal} />
+    case CHALLENGED:
+      return <Challenged {...proposal} />
+    case ACCEPTED:
+      return <Accepted {...proposal} />
+    case REJECTED:
+      return <Rejected {...proposal} />
+    case ACCEPT_ENDED:
+      return <AcceptEnded {...proposal} />
+    case REJECT_ENDED:
+      return <RejectEnded {...proposal} />
+  }
+}
+// <Dynamic {...proposal} />
+
 function ProposalDetail({proposal, onBack}){
+  const { api, appState } = useAragonApi()
   return (
     <React.Fragment>
       <Bar>
@@ -88,7 +118,7 @@ function Proposed({id}){
   return (
     <React.Fragment>
       <Field>
-        <Button onClick={() => api.challenge(id)} mode="strong" emphasis="negative">Challenge</Button>
+        <Button onClick={(e)=>{e.stopPropagation();api.challenge(id).toPromise();}} mode="strong" emphasis="negative">Challenge</Button>
       </Field>
     </React.Fragment>
   )
@@ -99,7 +129,7 @@ function Challenged({id}){
   return (
     <React.Fragment>
       <Field>
-        <Button onClick={() => api.support(id)} mode="strong" emphasis="positive">Support</Button>
+        <Button onClick={(e)=>{e.stopPropagation();api.support(id).toPromise();}} mode="strong" emphasis="positive">Support</Button>
       </Field>
     </React.Fragment>
   )
@@ -110,10 +140,10 @@ function Accepted({id, proposer, reward}){
   return (
     <React.Fragment>
       {connectedAccount === proposer &&
-        <Info.Action style={{"margin-bottom": "10px"}}>You can claim {BigNumber(reward).div("1e+18")}</Info.Action>
+        <Info.Action style={{"marginBottom": "10px"}}>{`You can claim ${BigNumber(reward).div("1e+18")}`}</Info.Action>
       }
       <Field>
-        <Button onClick={() => api.end(id)} mode="strong" emphasis="positive">End</Button>
+        <Button onClick={(e)=>{e.stopPropagation();api.end(id).toPromise();}} mode="strong" emphasis="positive">End</Button>
       </Field>
     </React.Fragment>
   )
@@ -124,10 +154,10 @@ function Rejected({id, challenger, stake}) {
   return (
     <React.Fragment>
       {connectedAccount === challenger &&
-        <Info.Action style={{"margin-bottom": "10px"}}>You can claim {BigNumber(stake).div("1e+18")}</Info.Action>
+        <Info.Action style={{"marginBottom": "10px"}}>{`You can claim ${BigNumber(stake).div("1e+18")}`}</Info.Action>
       }
       <Field>
-        <Button onClick={() => api.end(id)} mode="strong" emphasis="positive">End</Button>
+        <Button onClick={(e)=>{e.stopPropagation();api.end(id).toPromise();}} mode="strong" emphasis="positive">End</Button>
       </Field>
     </React.Fragment>
   )
@@ -136,7 +166,7 @@ function Rejected({id, challenger, stake}) {
 function AcceptEnded() {
   return (
     <React.Fragment>
-      <Info style={{"margin-bottom": "10px"}}>Proposal ended accepted</Info>
+      <Info style={{"marginBottom": "10px"}}>{`Proposal ended accepted`}</Info>
     </React.Fragment>
   )
 }
@@ -144,7 +174,7 @@ function AcceptEnded() {
 function RejectEnded() {
   return (
     <React.Fragment>
-      <Info.Alert style={{"margin-bottom": "10px"}}>Proposal ended rejected</Info.Alert>
+      <Info.Alert style={{"marginBottom": "10px"}}>{`Proposal ended rejected`}</Info.Alert>
     </React.Fragment>
   )
 }

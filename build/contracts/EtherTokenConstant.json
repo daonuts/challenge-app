@@ -11,14 +11,14 @@
     "absolutePath": "@aragon/os/contracts/common/EtherTokenConstant.sol",
     "exportedSymbols": {
       "EtherTokenConstant": [
-        6980
+        6989
       ]
     },
-    "id": 6981,
+    "id": 6990,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6974,
+        "id": 6983,
         "literals": [
           "solidity",
           "^",
@@ -34,19 +34,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6980,
+        "id": 6989,
         "linearizedBaseContracts": [
-          6980
+          6989
         ],
         "name": "EtherTokenConstant",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 6979,
+            "id": 6988,
             "name": "ETH",
             "nodeType": "VariableDeclaration",
-            "scope": 6980,
+            "scope": 6989,
             "src": "229:42:22",
             "stateVariable": true,
             "storageLocation": "default",
@@ -55,7 +55,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 6975,
+              "id": 6984,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "229:7:22",
@@ -70,7 +70,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "30",
-                  "id": 6977,
+                  "id": 6986,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -93,7 +93,7 @@
                     "typeString": "int_const 0"
                   }
                 ],
-                "id": 6976,
+                "id": 6985,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -106,7 +106,7 @@
                 },
                 "typeName": "address"
               },
-              "id": 6978,
+              "id": 6987,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -123,7 +123,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 6981,
+        "scope": 6990,
         "src": "195:79:22"
       }
     ],
@@ -133,14 +133,14 @@
     "absolutePath": "@aragon/os/contracts/common/EtherTokenConstant.sol",
     "exportedSymbols": {
       "EtherTokenConstant": [
-        6980
+        6989
       ]
     },
-    "id": 6981,
+    "id": 6990,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6974,
+        "id": 6983,
         "literals": [
           "solidity",
           "^",
@@ -156,19 +156,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6980,
+        "id": 6989,
         "linearizedBaseContracts": [
-          6980
+          6989
         ],
         "name": "EtherTokenConstant",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 6979,
+            "id": 6988,
             "name": "ETH",
             "nodeType": "VariableDeclaration",
-            "scope": 6980,
+            "scope": 6989,
             "src": "229:42:22",
             "stateVariable": true,
             "storageLocation": "default",
@@ -177,7 +177,7 @@
               "typeString": "address"
             },
             "typeName": {
-              "id": 6975,
+              "id": 6984,
               "name": "address",
               "nodeType": "ElementaryTypeName",
               "src": "229:7:22",
@@ -192,7 +192,7 @@
                 {
                   "argumentTypes": null,
                   "hexValue": "30",
-                  "id": 6977,
+                  "id": 6986,
                   "isConstant": false,
                   "isLValue": false,
                   "isPure": true,
@@ -215,7 +215,7 @@
                     "typeString": "int_const 0"
                   }
                 ],
-                "id": 6976,
+                "id": 6985,
                 "isConstant": false,
                 "isLValue": false,
                 "isPure": true,
@@ -228,7 +228,7 @@
                 },
                 "typeName": "address"
               },
-              "id": 6978,
+              "id": 6987,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -245,7 +245,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 6981,
+        "scope": 6990,
         "src": "195:79:22"
       }
     ],
@@ -257,5 +257,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-10-23T20:59:03.508Z"
+  "updatedAt": "2019-10-24T15:27:41.909Z"
 }

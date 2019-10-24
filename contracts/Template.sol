@@ -54,6 +54,7 @@ contract TemplateBase is APMNamehash {
 contract Template is TemplateBase {
     MiniMeTokenFactory tokenFactory;
 
+    uint constant TOKEN_UNIT = 10 ** 18;
     uint64 constant PCT = 10 ** 16;
     address constant ANY_ENTITY = address(-1);
 
@@ -81,21 +82,21 @@ contract Template is TemplateBase {
         // Initialize apps
         tokenManager.initialize(token, true, 0);
         emit InstalledApp(tokenManager, tokenManagerAppId);
-        challenge.initialize(tokenManager, 100e18, 10e18, 50e18, uint64(5 minutes), uint64(5 minutes), uint64(1 minutes));
+        challenge.initialize(tokenManager, 100*TOKEN_UNIT, 10*TOKEN_UNIT, 50*TOKEN_UNIT, uint64(1 minutes), uint64(1 minutes), uint64(1 minutes));
         emit InstalledApp(challenge, challengeAppId);
-        voting.initialize(token, uint64(60 * 10**16), uint64(15 * 10**16), uint64(1 days));
+        voting.initialize(token, uint64(60*PCT), uint64(15*PCT), uint64(1 days));
         emit InstalledApp(voting, votingAppId);
 
         acl.createPermission(root, voting, voting.CREATE_VOTES_ROLE(), root);
 
-        acl.createPermission(root, challenge, challenge.PROPOSE_ROLE(), root);
+        acl.createPermission(root, challenge, challenge.PROPOSE_ROLE(), ANY_ENTITY);
         acl.createPermission(root, challenge, challenge.CHALLENGE_ROLE(), root);
         acl.createPermission(voting, challenge, challenge.SUPPORT_ROLE(), root);
         acl.createPermission(root, challenge, challenge.MODIFY_PARAMETER_ROLE(), root);
 /*  */
         acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
 
-        tokenManager.mint(root, 100000e18); // Give 1000 token to msg.sender
+        tokenManager.mint(root, 100000*TOKEN_UNIT); // Give 100000 token to msg.sender
 
         acl.grantPermission(challenge, tokenManager, tokenManager.MINT_ROLE());
         acl.createPermission(challenge, tokenManager, tokenManager.BURN_ROLE(), voting);

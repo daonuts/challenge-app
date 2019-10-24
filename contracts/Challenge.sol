@@ -14,7 +14,7 @@ contract Challenge is IForwarder, AragonApp {
     enum Status { NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_ENDED }
 
     struct Proposal {
-      uint64  timer;
+      uint64  end;
       address proposer;
       address challenger;
       uint    stake;
@@ -76,12 +76,12 @@ contract Challenge is IForwarder, AragonApp {
         // require no existing challenge
         require( proposal.challenger == address(0), ERROR );
         // require in challenge period
-        require( now < proposal.timer.add(challengeTime), ERROR_TIMING );
+        require( proposal.end > now, ERROR_TIMING );
         // challengeFee burn
         tokenManager.burn(msg.sender, challengeFee);
         // set challenger
         proposal.challenger = msg.sender;
-        proposal.timer = uint64(now);
+        proposal.end = uint64(now).add(supportTime);
 
         emit Challenge(_id);
     }
@@ -95,10 +95,10 @@ contract Challenge is IForwarder, AragonApp {
         // i don't think this challenger check is necessary. if a support/accept
         // vote is initiated without a challenge and it passes early this is a way to
         // expedite approval process
-        /* require( proposals[_id].challenger != 0x0, ERROR ); */
+        /* require( proposals[_id].challenger != address(0), ERROR ); */
         delete proposal.challenger;
         // ensure not re-challengeable
-        proposal.timer = 0;
+        proposal.end = 0;
         emit Support(_id);
     }
 
@@ -125,7 +125,7 @@ contract Challenge is IForwarder, AragonApp {
         }
 
         // don't delete proposal.challenger because it's used to indicate a successful challenge
-        delete proposal.timer;
+        delete proposal.end;
         delete proposal.proposer;
         delete proposal.stake;
         delete proposal.reward;
@@ -157,15 +157,15 @@ contract Challenge is IForwarder, AragonApp {
     function statusOf(uint _id) public view returns (Status) {
         Proposal storage proposal = proposals[_id];
 
-        if(proposal.challenger == 0x0){
-            if(now < proposal.timer.add(challengeTime))
+        if(proposal.challenger == address(0)){
+            if(proposal.end > uint64(now))
                 return Status.PROPOSED;
             else if(proposal.script.length > 0)
                 return Status.ACCEPTED;
             else
                 return Status.ACCEPT_ENDED;
         } else {
-            if(now < proposal.timer.add(supportTime))
+            if(proposal.end > uint64(now))
                 return Status.CHALLENGED;
             else if(proposal.script.length > 0)
                 return Status.REJECTED;
@@ -210,13 +210,12 @@ contract Challenge is IForwarder, AragonApp {
 
         id = proposalsCount++;
         Proposal storage proposal = proposals[id];
-        proposal.timer = now64;
+        proposal.end = now64.add(challengeTime);
         proposal.proposer = msg.sender;
         proposal.stake = proposalStake;
         proposal.reward = proposalReward;
         proposal.script = _script;
 
-        /* tokenManager.move(msg.sender, this, proposalStake); */
         tokenManager.burn(msg.sender, proposalStake);
         lastProposalDate = now64;
 
@@ -231,6 +230,7 @@ contract Challenge is IForwarder, AragonApp {
     function forward(bytes _evmScript) public {
         require(canForward(msg.sender, _evmScript), ERROR_PERMISSION);
         _propose(_evmScript, "");
+        /* runScript(_evmScript, new bytes(0), new address[](0)); */
     }
 
     function canForward(address _sender, bytes) public view returns (bool) {
