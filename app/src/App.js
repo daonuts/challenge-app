@@ -6,14 +6,6 @@ import {
 } from '@aragon/ui'
 import BigNumber from 'bignumber.js'
 import { NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_ENDED, statuses } from './constants'
-const proposalComponents = {
-  PROPOSED: Proposed,
-  CHALLENGED: Challenged,
-  ACCEPTED: Accepted,
-  REJECTED: Rejected,
-  ACCEPT_ENDED: AcceptEnded,
-  REJECT_ENDED: RejectEnded
-}
 
 export default function App() {
   const { api, appState } = useAragonApi()
