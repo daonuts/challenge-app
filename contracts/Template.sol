@@ -89,10 +89,10 @@ contract Template is TemplateBase {
 
         acl.createPermission(root, voting, voting.CREATE_VOTES_ROLE(), root);
 
-        acl.createPermission(root, challenge, challenge.PROPOSE_ROLE(), ANY_ENTITY);
-        acl.createPermission(root, challenge, challenge.CHALLENGE_ROLE(), root);
-        acl.createPermission(voting, challenge, challenge.SUPPORT_ROLE(), root);
-        acl.createPermission(root, challenge, challenge.MODIFY_PARAMETER_ROLE(), root);
+        acl.createPermission(ANY_ENTITY, challenge, challenge.PROPOSE_ROLE(), voting);
+        acl.createPermission(ANY_ENTITY, challenge, challenge.CHALLENGE_ROLE(), voting);
+        acl.createPermission(voting, challenge, challenge.SUPPORT_ROLE(), voting);
+        acl.createPermission(voting, challenge, challenge.MODIFY_PARAMETER_ROLE(), voting);
 /*  */
         acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
 
