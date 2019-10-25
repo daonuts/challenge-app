@@ -1,6 +1,6 @@
 {
 	"name": "@daonuts/challenge",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"dependencies": {
 		"@aragon/api": "^2.0.0-beta.6",
@@ -49,14 +49,12 @@
 		"versions": "aragon apm versions",
 		"clean": "rm -rf build && rm -rf dist",
 		"abi:extract": "truffle-extract --output abi/ --keys abi",
-		"prepublishOnly": "truffle compile --all && npm run build && npm run abi:extract -- --no-compile"
+		"prepublishOnly": "truffle compile --all && npm run abi:extract -- --no-compile"
 	},
 	"keywords": [],
 	"files": [
 		"/abi",
 		"/arapp.json",
-		"/app",
-		"/dist",
 		"/contracts",
 		"/test"
 	],
