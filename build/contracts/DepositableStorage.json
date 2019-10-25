@@ -18,38 +18,38 @@
   ],
   "bytecode": "0x608060405234801561001057600080fd5b5060dc8061001f6000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806348a0c8dd146044575b600080fd5b348015604f57600080fd5b5060566070565b604051808215151515815260200191505060405180910390f35b600060a07f665fd576fbbe6f247aff98f5c94a561e3f71ec2d3c988d56f12d342396c50cea6001026000191660a5565b905090565b6000815490509190505600a165627a7a72305820e9d1273e4156396502141ca1a7df54f3742ad1b80d16317417a146d1801cf3880029",
   "deployedBytecode": "0x608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806348a0c8dd146044575b600080fd5b348015604f57600080fd5b5060566070565b604051808215151515815260200191505060405180910390f35b600060a07f665fd576fbbe6f247aff98f5c94a561e3f71ec2d3c988d56f12d342396c50cea6001026000191660a5565b905090565b6000815490509190505600a165627a7a72305820e9d1273e4156396502141ca1a7df54f3742ad1b80d16317417a146d1801cf3880029",
-  "sourceMap": "63:499:21:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;63:499:21;;;;;;;",
-  "deployedSourceMap": "63:499:21:-;;;;;;;;;;;;;;;;;;;;;;;;323:113;;8:9:-1;5:2;;;30:1;27;20:12;5:2;323:113:21;;;;;;;;;;;;;;;;;;;;;;;;;;;;369:4;392:37;250:66;392:20;;:35;;;;:37::i;:::-;385:44;;323:113;:::o;105:128:32:-;170:9;216:8;210:15;202:23;;200:27;;;:::o",
+  "sourceMap": "63:499:22:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;63:499:22;;;;;;;",
+  "deployedSourceMap": "63:499:22:-;;;;;;;;;;;;;;;;;;;;;;;;323:113;;8:9:-1;5:2;;;30:1;27;20:12;5:2;323:113:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;369:4;392:37;250:66;392:20;;:35;;;;:37::i;:::-;385:44;;323:113;:::o;105:128:33:-;170:9;216:8;210:15;202:23;;200:27;;;:::o",
   "source": "pragma solidity 0.4.24;\n\nimport \"./UnstructuredStorage.sol\";\n\n\ncontract DepositableStorage {\n    using UnstructuredStorage for bytes32;\n\n    // keccak256(\"aragonOS.depositableStorage.depositable\")\n    bytes32 internal constant DEPOSITABLE_POSITION = 0x665fd576fbbe6f247aff98f5c94a561e3f71ec2d3c988d56f12d342396c50cea;\n\n    function isDepositable() public view returns (bool) {\n        return DEPOSITABLE_POSITION.getStorageBool();\n    }\n\n    function setDepositable(bool _depositable) internal {\n        DEPOSITABLE_POSITION.setStorageBool(_depositable);\n    }\n}\n",
   "sourcePath": "@aragon/os/contracts/common/DepositableStorage.sol",
   "ast": {
     "absolutePath": "@aragon/os/contracts/common/DepositableStorage.sol",
     "exportedSymbols": {
       "DepositableStorage": [
-        6981
+        7038
       ]
     },
-    "id": 6982,
+    "id": 7039,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6951,
+        "id": 7008,
         "literals": [
           "solidity",
           "0.4",
           ".24"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:21"
+        "src": "0:23:22"
       },
       {
         "absolutePath": "@aragon/os/contracts/common/UnstructuredStorage.sol",
         "file": "./UnstructuredStorage.sol",
-        "id": 6952,
+        "id": 7009,
         "nodeType": "ImportDirective",
-        "scope": 6982,
-        "sourceUnit": 7634,
-        "src": "25:35:21",
+        "scope": 7039,
+        "sourceUnit": 7691,
+        "src": "25:35:22",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -59,34 +59,34 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6981,
+        "id": 7038,
         "linearizedBaseContracts": [
-          6981
+          7038
         ],
         "name": "DepositableStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 6955,
+            "id": 7012,
             "libraryName": {
               "contractScope": null,
-              "id": 6953,
+              "id": 7010,
               "name": "UnstructuredStorage",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7633,
-              "src": "103:19:21",
+              "referencedDeclaration": 7690,
+              "src": "103:19:22",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_UnstructuredStorage_$7633",
+                "typeIdentifier": "t_contract$_UnstructuredStorage_$7690",
                 "typeString": "library UnstructuredStorage"
               }
             },
             "nodeType": "UsingForDirective",
-            "src": "97:38:21",
+            "src": "97:38:22",
             "typeName": {
-              "id": 6954,
+              "id": 7011,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "127:7:21",
+              "src": "127:7:22",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -95,11 +95,11 @@
           },
           {
             "constant": true,
-            "id": 6958,
+            "id": 7015,
             "name": "DEPOSITABLE_POSITION",
             "nodeType": "VariableDeclaration",
-            "scope": 6981,
-            "src": "201:115:21",
+            "scope": 7038,
+            "src": "201:115:22",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -107,10 +107,10 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 6956,
+              "id": 7013,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "201:7:21",
+              "src": "201:7:22",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -119,14 +119,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "307836363566643537366662626536663234376166663938663563393461353631653366373165633264336339383864353666313264333432333936633530636561",
-              "id": 6957,
+              "id": 7014,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "250:66:21",
+              "src": "250:66:22",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_46305234306404416513646796018318532483072908513802138792889746402715613072618_by_1",
@@ -138,9 +138,9 @@
           },
           {
             "body": {
-              "id": 6967,
+              "id": 7024,
               "nodeType": "Block",
-              "src": "375:61:21",
+              "src": "375:61:22",
               "statements": [
                 {
                   "expression": {
@@ -150,32 +150,32 @@
                       "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 6963,
+                        "id": 7020,
                         "name": "DEPOSITABLE_POSITION",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6958,
-                        "src": "392:20:21",
+                        "referencedDeclaration": 7015,
+                        "src": "392:20:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
                         }
                       },
-                      "id": 6964,
+                      "id": 7021,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getStorageBool",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 7569,
-                      "src": "392:35:21",
+                      "referencedDeclaration": 7626,
+                      "src": "392:35:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_bool_$bound_to$_t_bytes32_$",
                         "typeString": "function (bytes32) view returns (bool)"
                       }
                     },
-                    "id": 6965,
+                    "id": 7022,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -183,21 +183,21 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "392:37:21",
+                    "src": "392:37:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 6962,
-                  "id": 6966,
+                  "functionReturnParameters": 7019,
+                  "id": 7023,
                   "nodeType": "Return",
-                  "src": "385:44:21"
+                  "src": "385:44:22"
                 }
               ]
             },
             "documentation": null,
-            "id": 6968,
+            "id": 7025,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -205,23 +205,23 @@
             "name": "isDepositable",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6959,
+              "id": 7016,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "345:2:21"
+              "src": "345:2:22"
             },
             "payable": false,
             "returnParameters": {
-              "id": 6962,
+              "id": 7019,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6961,
+                  "id": 7018,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6968,
-                  "src": "369:4:21",
+                  "scope": 7025,
+                  "src": "369:4:22",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -229,10 +229,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 6960,
+                    "id": 7017,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "369:4:21",
+                    "src": "369:4:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -242,19 +242,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "368:6:21"
+              "src": "368:6:22"
             },
-            "scope": 6981,
-            "src": "323:113:21",
+            "scope": 7038,
+            "src": "323:113:22",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 6979,
+              "id": 7036,
               "nodeType": "Block",
-              "src": "494:66:21",
+              "src": "494:66:22",
               "statements": [
                 {
                   "expression": {
@@ -262,12 +262,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 6976,
+                        "id": 7033,
                         "name": "_depositable",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6970,
-                        "src": "540:12:21",
+                        "referencedDeclaration": 7027,
+                        "src": "540:12:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -283,32 +283,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 6973,
+                        "id": 7030,
                         "name": "DEPOSITABLE_POSITION",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6958,
-                        "src": "504:20:21",
+                        "referencedDeclaration": 7015,
+                        "src": "504:20:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
                         }
                       },
-                      "id": 6975,
+                      "id": 7032,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "setStorageBool",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 7605,
-                      "src": "504:35:21",
+                      "referencedDeclaration": 7662,
+                      "src": "504:35:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bool_$returns$__$bound_to$_t_bytes32_$",
                         "typeString": "function (bytes32,bool)"
                       }
                     },
-                    "id": 6977,
+                    "id": 7034,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -316,20 +316,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "504:49:21",
+                    "src": "504:49:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 6978,
+                  "id": 7035,
                   "nodeType": "ExpressionStatement",
-                  "src": "504:49:21"
+                  "src": "504:49:22"
                 }
               ]
             },
             "documentation": null,
-            "id": 6980,
+            "id": 7037,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -337,16 +337,16 @@
             "name": "setDepositable",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6971,
+              "id": 7028,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6970,
+                  "id": 7027,
                   "name": "_depositable",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6980,
-                  "src": "466:17:21",
+                  "scope": 7037,
+                  "src": "466:17:22",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -354,10 +354,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 6969,
+                    "id": 7026,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "466:4:21",
+                    "src": "466:4:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -367,56 +367,56 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "465:19:21"
+              "src": "465:19:22"
             },
             "payable": false,
             "returnParameters": {
-              "id": 6972,
+              "id": 7029,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "494:0:21"
+              "src": "494:0:22"
             },
-            "scope": 6981,
-            "src": "442:118:21",
+            "scope": 7038,
+            "src": "442:118:22",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 6982,
-        "src": "63:499:21"
+        "scope": 7039,
+        "src": "63:499:22"
       }
     ],
-    "src": "0:563:21"
+    "src": "0:563:22"
   },
   "legacyAST": {
     "absolutePath": "@aragon/os/contracts/common/DepositableStorage.sol",
     "exportedSymbols": {
       "DepositableStorage": [
-        6981
+        7038
       ]
     },
-    "id": 6982,
+    "id": 7039,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6951,
+        "id": 7008,
         "literals": [
           "solidity",
           "0.4",
           ".24"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:21"
+        "src": "0:23:22"
       },
       {
         "absolutePath": "@aragon/os/contracts/common/UnstructuredStorage.sol",
         "file": "./UnstructuredStorage.sol",
-        "id": 6952,
+        "id": 7009,
         "nodeType": "ImportDirective",
-        "scope": 6982,
-        "sourceUnit": 7634,
-        "src": "25:35:21",
+        "scope": 7039,
+        "sourceUnit": 7691,
+        "src": "25:35:22",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -426,34 +426,34 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6981,
+        "id": 7038,
         "linearizedBaseContracts": [
-          6981
+          7038
         ],
         "name": "DepositableStorage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "id": 6955,
+            "id": 7012,
             "libraryName": {
               "contractScope": null,
-              "id": 6953,
+              "id": 7010,
               "name": "UnstructuredStorage",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 7633,
-              "src": "103:19:21",
+              "referencedDeclaration": 7690,
+              "src": "103:19:22",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_UnstructuredStorage_$7633",
+                "typeIdentifier": "t_contract$_UnstructuredStorage_$7690",
                 "typeString": "library UnstructuredStorage"
               }
             },
             "nodeType": "UsingForDirective",
-            "src": "97:38:21",
+            "src": "97:38:22",
             "typeName": {
-              "id": 6954,
+              "id": 7011,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "127:7:21",
+              "src": "127:7:22",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -462,11 +462,11 @@
           },
           {
             "constant": true,
-            "id": 6958,
+            "id": 7015,
             "name": "DEPOSITABLE_POSITION",
             "nodeType": "VariableDeclaration",
-            "scope": 6981,
-            "src": "201:115:21",
+            "scope": 7038,
+            "src": "201:115:22",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -474,10 +474,10 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 6956,
+              "id": 7013,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "201:7:21",
+              "src": "201:7:22",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -486,14 +486,14 @@
             "value": {
               "argumentTypes": null,
               "hexValue": "307836363566643537366662626536663234376166663938663563393461353631653366373165633264336339383864353666313264333432333936633530636561",
-              "id": 6957,
+              "id": 7014,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "250:66:21",
+              "src": "250:66:22",
               "subdenomination": null,
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_46305234306404416513646796018318532483072908513802138792889746402715613072618_by_1",
@@ -505,9 +505,9 @@
           },
           {
             "body": {
-              "id": 6967,
+              "id": 7024,
               "nodeType": "Block",
-              "src": "375:61:21",
+              "src": "375:61:22",
               "statements": [
                 {
                   "expression": {
@@ -517,32 +517,32 @@
                       "argumentTypes": [],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 6963,
+                        "id": 7020,
                         "name": "DEPOSITABLE_POSITION",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6958,
-                        "src": "392:20:21",
+                        "referencedDeclaration": 7015,
+                        "src": "392:20:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
                         }
                       },
-                      "id": 6964,
+                      "id": 7021,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "getStorageBool",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 7569,
-                      "src": "392:35:21",
+                      "referencedDeclaration": 7626,
+                      "src": "392:35:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_bytes32_$returns$_t_bool_$bound_to$_t_bytes32_$",
                         "typeString": "function (bytes32) view returns (bool)"
                       }
                     },
-                    "id": 6965,
+                    "id": 7022,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -550,21 +550,21 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "392:37:21",
+                    "src": "392:37:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 6962,
-                  "id": 6966,
+                  "functionReturnParameters": 7019,
+                  "id": 7023,
                   "nodeType": "Return",
-                  "src": "385:44:21"
+                  "src": "385:44:22"
                 }
               ]
             },
             "documentation": null,
-            "id": 6968,
+            "id": 7025,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -572,23 +572,23 @@
             "name": "isDepositable",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6959,
+              "id": 7016,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "345:2:21"
+              "src": "345:2:22"
             },
             "payable": false,
             "returnParameters": {
-              "id": 6962,
+              "id": 7019,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6961,
+                  "id": 7018,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6968,
-                  "src": "369:4:21",
+                  "scope": 7025,
+                  "src": "369:4:22",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -596,10 +596,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 6960,
+                    "id": 7017,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "369:4:21",
+                    "src": "369:4:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -609,19 +609,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "368:6:21"
+              "src": "368:6:22"
             },
-            "scope": 6981,
-            "src": "323:113:21",
+            "scope": 7038,
+            "src": "323:113:22",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 6979,
+              "id": 7036,
               "nodeType": "Block",
-              "src": "494:66:21",
+              "src": "494:66:22",
               "statements": [
                 {
                   "expression": {
@@ -629,12 +629,12 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 6976,
+                        "id": 7033,
                         "name": "_depositable",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6970,
-                        "src": "540:12:21",
+                        "referencedDeclaration": 7027,
+                        "src": "540:12:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -650,32 +650,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 6973,
+                        "id": 7030,
                         "name": "DEPOSITABLE_POSITION",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 6958,
-                        "src": "504:20:21",
+                        "referencedDeclaration": 7015,
+                        "src": "504:20:22",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bytes32",
                           "typeString": "bytes32"
                         }
                       },
-                      "id": 6975,
+                      "id": 7032,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "setStorageBool",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 7605,
-                      "src": "504:35:21",
+                      "referencedDeclaration": 7662,
+                      "src": "504:35:22",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes32_$_t_bool_$returns$__$bound_to$_t_bytes32_$",
                         "typeString": "function (bytes32,bool)"
                       }
                     },
-                    "id": 6977,
+                    "id": 7034,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -683,20 +683,20 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "504:49:21",
+                    "src": "504:49:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 6978,
+                  "id": 7035,
                   "nodeType": "ExpressionStatement",
-                  "src": "504:49:21"
+                  "src": "504:49:22"
                 }
               ]
             },
             "documentation": null,
-            "id": 6980,
+            "id": 7037,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -704,16 +704,16 @@
             "name": "setDepositable",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6971,
+              "id": 7028,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6970,
+                  "id": 7027,
                   "name": "_depositable",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6980,
-                  "src": "466:17:21",
+                  "scope": 7037,
+                  "src": "466:17:22",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -721,10 +721,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 6969,
+                    "id": 7026,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "466:4:21",
+                    "src": "466:4:22",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -734,27 +734,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "465:19:21"
+              "src": "465:19:22"
             },
             "payable": false,
             "returnParameters": {
-              "id": 6972,
+              "id": 7029,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "494:0:21"
+              "src": "494:0:22"
             },
-            "scope": 6981,
-            "src": "442:118:21",
+            "scope": 7038,
+            "src": "442:118:22",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 6982,
-        "src": "63:499:21"
+        "scope": 7039,
+        "src": "63:499:22"
       }
     ],
-    "src": "0:563:21"
+    "src": "0:563:22"
   },
   "compiler": {
     "name": "solc",
@@ -762,5 +762,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2019-10-24T17:57:00.054Z"
+  "updatedAt": "2019-10-25T14:30:44.877Z"
 }

@@ -1,5 +1,5 @@
 {
-	"name": "@daonuts/challenge-app",
+	"name": "@daonuts/challenge",
 	"version": "0.0.1",
 	"description": "",
 	"dependencies": {
@@ -27,7 +27,8 @@
 		"@babel/preset-env": "^7.6.3",
 		"babel-plugin-styled-components": "^1.10.6",
 		"homedir": "^0.6.0",
-		"parcel-bundler": "^1.12.4"
+		"parcel-bundler": "^1.12.4",
+		"truffle-extract": "^1.2.1"
 	},
 	"scripts": {
 		"start": "aragon run",
@@ -39,15 +40,28 @@
 		"sync-assets": "copy-aragon-ui-assets -n aragon-ui ./dist",
 		"build:app": "parcel build app/index.html -d dist/ --public-url '.' --no-cache",
 		"build:script": "parcel build app/src/script.js -d dist/ --no-cache",
-		"build": "npm run sync-assets && npm run build:app && npm run build:script",
+		"build": "rm -rf dist && npm run sync-assets && npm run build:app && npm run build:script",
 		"serve": "parcel serve app/index.html",
 		"publish:patch": "aragon apm publish patch --files dist --skip-confirmation",
 		"publish:minor": "aragon apm publish minor --files dist --skip-confirmation",
 		"publish:major": "aragon apm publish major --files dist --skip-confirmation",
 		"deploy:template": "aragon deploy Template --init @ARAGON_ENS",
 		"versions": "aragon apm versions",
-		"clean": "rm -rf build && rm -rf dist"
+		"clean": "rm -rf build && rm -rf dist",
+		"abi:extract": "truffle-extract --output abi/ --keys abi",
+		"prepublishOnly": "truffle compile --all && npm run build && npm run abi:extract -- --no-compile"
 	},
+	"keywords": [],
+	"files": [
+		"/abi",
+		"/arapp.json",
+		"/app",
+		"/dist",
+		"/contracts",
+		"/test"
+	],
+	"author": "Carl Larson <cslarson@gmail.com>",
+	"license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
 	"browserslist": [
 		"last 2 Chrome versions"
 	]
