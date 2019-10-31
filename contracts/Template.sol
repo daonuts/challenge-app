@@ -17,8 +17,10 @@ import "@aragon/os/contracts/lib/ens/PublicResolver.sol";
 import "@aragon/os/contracts/apm/APMNamehash.sol";
 
 import "@aragon/apps-token-manager/contracts/TokenManager.sol";
-import "@aragon/apps-voting/contracts/Voting.sol";
 import "@aragon/apps-shared-minime/contracts/MiniMeToken.sol";
+
+import "@daonuts/capped-voting/contracts/CappedVoting.sol";
+import "@daonuts/token/contracts/Token.sol";
 
 import "./Challenge.sol";
 
@@ -52,14 +54,14 @@ contract TemplateBase is APMNamehash {
 
 
 contract Template is TemplateBase {
-    MiniMeTokenFactory tokenFactory;
+    /* MiniMeTokenFactory tokenFactory; */
 
     uint constant TOKEN_UNIT = 10 ** 18;
     uint64 constant PCT = 10 ** 16;
     address constant ANY_ENTITY = address(-1);
 
     constructor(ENS ens) TemplateBase(DAOFactory(0), ens) public {
-        tokenFactory = new MiniMeTokenFactory();
+        /* tokenFactory = new MiniMeTokenFactory(); */
     }
 
     function newInstance() public {
@@ -69,23 +71,31 @@ contract Template is TemplateBase {
 
         address root = msg.sender;
         bytes32 challengeAppId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("challenge-app")));
+        bytes32 cappedVotingAppId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("capped-voting-app")));
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
-        bytes32 votingAppId = apmNamehash("voting");
 
         Challenge challenge = Challenge(dao.newAppInstance(challengeAppId, latestVersionAppBase(challengeAppId)));
-        TokenManager tokenManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
-        Voting voting = Voting(dao.newAppInstance(votingAppId, latestVersionAppBase(votingAppId)));
+        TokenManager contribManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
+        TokenManager currencyManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
+        CappedVoting voting = CappedVoting(dao.newAppInstance(cappedVotingAppId, latestVersionAppBase(cappedVotingAppId)));
 
-        MiniMeToken token = tokenFactory.createCloneToken(MiniMeToken(0), 0, "Donut", 18, "DONUT", true);
-        token.changeController(tokenManager);
+        /* MiniMeToken contrib = tokenFactory.createCloneToken(MiniMeToken(0), 0, "Contrib", 18, "CONTRIB", false); */
+        Token contrib = new Token("Contrib", 18, "CONTRIB", false);
+        /* MiniMeToken currency = tokenFactory.createCloneToken(MiniMeToken(0), 0, "Currency", 18, "CURRENCY", true); */
+        Token currency = new Token("Currency", 18, "CURRENCY", true);
+        contrib.changeController(contribManager);
+        currency.changeController(currencyManager);
 
         // Initialize apps
-        tokenManager.initialize(token, true, 0);
-        emit InstalledApp(tokenManager, tokenManagerAppId);
-        challenge.initialize(tokenManager, 100*TOKEN_UNIT, 10*TOKEN_UNIT, 50*TOKEN_UNIT, uint64(1 minutes), uint64(1 minutes), uint64(1 minutes));
+        contribManager.initialize(MiniMeToken(contrib), false, 0);
+        emit InstalledApp(contribManager, tokenManagerAppId);
+        currencyManager.initialize(MiniMeToken(currency), true, 0);
+        emit InstalledApp(currencyManager, tokenManagerAppId);
+
+        challenge.initialize(currencyManager, 100*TOKEN_UNIT, 10*TOKEN_UNIT, 50*TOKEN_UNIT, uint64(1 minutes), uint64(1 minutes), uint64(1 minutes));
         emit InstalledApp(challenge, challengeAppId);
-        voting.initialize(token, uint64(60*PCT), uint64(15*PCT), uint64(1 days));
-        emit InstalledApp(voting, votingAppId);
+        voting.initialize(contrib, currency, uint64(60*PCT), uint64(15*PCT), uint64(20 minutes));
+        emit InstalledApp(voting, cappedVotingAppId);
 
         acl.createPermission(root, voting, voting.CREATE_VOTES_ROLE(), root);
 
@@ -93,13 +103,15 @@ contract Template is TemplateBase {
         acl.createPermission(ANY_ENTITY, challenge, challenge.CHALLENGE_ROLE(), voting);
         acl.createPermission(voting, challenge, challenge.SUPPORT_ROLE(), voting);
         acl.createPermission(voting, challenge, challenge.MODIFY_PARAMETER_ROLE(), voting);
-/*  */
-        acl.createPermission(this, tokenManager, tokenManager.MINT_ROLE(), this);
 
-        tokenManager.mint(root, 100000*TOKEN_UNIT); // Give 100000 token to msg.sender
+        acl.createPermission(this, contribManager, contribManager.MINT_ROLE(), this);
+        acl.createPermission(this, currencyManager, currencyManager.MINT_ROLE(), this);
 
-        acl.grantPermission(challenge, tokenManager, tokenManager.MINT_ROLE());
-        acl.createPermission(challenge, tokenManager, tokenManager.BURN_ROLE(), voting);
+        contribManager.mint(root, 100000 * TOKEN_UNIT);
+        currencyManager.mint(root, 100000 * TOKEN_UNIT);
+
+        acl.grantPermission(challenge, currencyManager, currencyManager.MINT_ROLE());
+        acl.createPermission(challenge, currencyManager, currencyManager.BURN_ROLE(), voting);
 
         // Clean up permissions
         acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
