@@ -109,6 +109,12 @@ contract Template is TemplateBase {
 
         contribManager.mint(root, 100000 * TOKEN_UNIT);
         currencyManager.mint(root, 100000 * TOKEN_UNIT);
+        contribManager.mint(0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb, 100000*TOKEN_UNIT);
+        currencyManager.mint(0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb, 100000*TOKEN_UNIT);
+        contribManager.mint(0x306469457266CBBe7c0505e8Aad358622235e768, 100000*TOKEN_UNIT);
+        currencyManager.mint(0x306469457266CBBe7c0505e8Aad358622235e768, 100000*TOKEN_UNIT);
+        contribManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT);
+        currencyManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT);
 
         acl.grantPermission(challenge, currencyManager, currencyManager.MINT_ROLE());
         acl.createPermission(challenge, currencyManager, currencyManager.BURN_ROLE(), voting);
