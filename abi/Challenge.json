@@ -405,6 +405,11 @@
           "indexed": false,
           "name": "id",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "script",
+          "type": "bytes"
         }
       ],
       "name": "Propose",

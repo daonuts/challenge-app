@@ -23,7 +23,7 @@ contract Challenge is IForwarder, AragonApp {
     }
 
     /// Events
-    event Propose(uint id);
+    event Propose(uint id, bytes script);
     event Challenge(uint id);
     event Support(uint id);
     event End(uint id, bool success);
@@ -100,13 +100,15 @@ contract Challenge is IForwarder, AragonApp {
         // ensure not re-challengeable
         proposal.end = 0;
         emit Support(_id);
+        // just call end directly here and wrap everything up
+        end(_id);
     }
 
     /**
      * @notice Conclude challenged proposal:`_id`
      * @param _id Proposal id
      */
-    function end(uint _id) external {
+    function end(uint _id) public {
         Proposal storage proposal = proposals[_id];
         Status status = statusOf(_id);
 
@@ -219,7 +221,7 @@ contract Challenge is IForwarder, AragonApp {
         tokenManager.burn(msg.sender, proposalStake);
         lastProposalDate = now64;
 
-        emit Propose(id);
+        emit Propose(id, _script);
     }
 
     /**

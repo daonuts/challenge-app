@@ -92,12 +92,12 @@ contract Template is TemplateBase {
         currencyManager.initialize(MiniMeToken(currency), true, 0);
         emit InstalledApp(currencyManager, tokenManagerAppId);
 
-        challenge.initialize(currencyManager, 100*TOKEN_UNIT, 10*TOKEN_UNIT, 50*TOKEN_UNIT, uint64(1 minutes), uint64(1 minutes), uint64(1 minutes));
+        challenge.initialize(currencyManager, 100*TOKEN_UNIT, 10*TOKEN_UNIT, 50*TOKEN_UNIT, uint64(1 minutes), uint64(2 minutes), uint64(1 minutes));
         emit InstalledApp(challenge, challengeAppId);
-        voting.initialize(contrib, currency, uint64(60*PCT), uint64(15*PCT), uint64(20 minutes));
+        voting.initialize(contrib, currency, uint64(60*PCT), uint64(15*PCT), uint64(1 minutes));
         emit InstalledApp(voting, cappedVotingAppId);
 
-        acl.createPermission(root, voting, voting.CREATE_VOTES_ROLE(), root);
+        acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), root);
 
         acl.createPermission(ANY_ENTITY, challenge, challenge.PROPOSE_ROLE(), voting);
         acl.createPermission(ANY_ENTITY, challenge, challenge.CHALLENGE_ROLE(), voting);
@@ -113,9 +113,10 @@ contract Template is TemplateBase {
         currencyManager.mint(0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb, 100000*TOKEN_UNIT);
         contribManager.mint(0x306469457266CBBe7c0505e8Aad358622235e768, 100000*TOKEN_UNIT);
         currencyManager.mint(0x306469457266CBBe7c0505e8Aad358622235e768, 100000*TOKEN_UNIT);
-        contribManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT);
-        currencyManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT);
+        /* contribManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT); */
+        /* currencyManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT); */
 
+        acl.grantPermission(challenge, contribManager, contribManager.MINT_ROLE());
         acl.grantPermission(challenge, currencyManager, currencyManager.MINT_ROLE());
         acl.createPermission(challenge, currencyManager, currencyManager.BURN_ROLE(), voting);
 

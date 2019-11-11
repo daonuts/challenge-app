@@ -9,34 +9,25 @@ const api = new AragonApi()
 
 api.store(
   async (state, event) => {
-    let newState, proposal
+    let newState, update
 
     switch (event.event) {
       case 'Propose':
-        proposal = await marshalProposal(parseInt(event.returnValues.id))
+        let proposal = await marshalProposal(parseInt(event.returnValues.id), event.returnValues.script)
         newState = {...state, proposals: [proposal].concat(state.proposals || [])}
         break
       case 'Challenge':
-        proposal = await marshalProposal(parseInt(event.returnValues.id))
-        newState = {...state, proposals: replace(state.proposals, proposal)}
+        newState = {...state, proposals: await updateProposal(state.proposals, parseInt(event.returnValues.id))}
         break
       case 'Support':
-        proposal = await marshalProposal(parseInt(event.returnValues.id))
-        newState = {...state, proposals: replace(state.proposals, proposal)}
+        newState = {...state, proposals: await updateProposal(state.proposals, parseInt(event.returnValues.id))}
         break
       case 'End':
-        proposal = await marshalProposal(parseInt(event.returnValues.id))
-        newState = {...state, proposals: replace(state.proposals, proposal)}
-        break
-      case 'DEBUG':
-        console.log(event.returnValues)
-        newState = {...state}
+        newState = {...state, proposals: await updateProposal(state.proposals, parseInt(event.returnValues.id))}
         break
       default:
         newState = state
     }
-
-    // console.log("newState challenger", newState, event)
 
     return newState
   },
@@ -57,15 +48,14 @@ api.store(
   }
 )
 
-async function marshalProposal(id){
-  const {challenger, proposer, reward, script, stake, end} = await api.call('proposals', id).toPromise()
+async function marshalProposal(id, script){
+  const {challenger, proposer, reward, stake, end} = await api.call('proposals', id).toPromise()
   const status = await api.call('statusOf', id).toPromise()
-  console.log(status)
   const description = await parseDescription(script)
   return {
     id,
-    status: statuses[status],
-    end: new Date(parseInt(end)*1000),
+    status,
+    end: parseInt(end)*1000,
     proposer,
     challenger: challenger === NULL_ADDRESS ? null : challenger,
     stake,
@@ -75,10 +65,17 @@ async function marshalProposal(id){
   }
 }
 
-function replace(items, item, key = 'id'){
-  let idx = items.findIndex(i=>i[key]===item[key])
-  items.splice(idx, 1, item)
-  return items
+async function updateProposal(proposals, id){
+  const {challenger, end} = await api.call('proposals', id).toPromise()
+  const status = await api.call('statusOf', id).toPromise()
+  const idx = proposals.findIndex(p=>p.id===id)
+  proposals[idx] = {
+    ...proposals[idx],
+    status,
+    challenger: challenger === NULL_ADDRESS ? null : challenger,
+    end: parseInt(end)*1000
+  }
+  return proposals.slice()
 }
 
 async function parseDescription(script) {

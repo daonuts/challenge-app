@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAragonApi } from '@aragon/api-react'
 import {
   Bar, BackButton, Button, Card, CardLayout, Checkbox, Field, GU, Header, IconArrowRight,
-  Info, Main, Modal, SidePanel, Text, TextInput, theme
+  Info, Main, Modal, SidePanel, Text, TextInput, Timer, theme
 } from '@aragon/ui'
 import BigNumber from 'bignumber.js'
 import { NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_ENDED, statuses } from './constants'
@@ -10,14 +10,14 @@ import { NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_EN
 export default function App() {
   const { api, appState } = useAragonApi()
   const { proposals = [], challengeTime, syncing } = appState
-  const [selected, setSelected] = useState()
+  const [selectedId, setSelectedId] = useState()
   // console.log(appState)
   return (
     <Main>
       <Header primary="Challenge" />
-      { selected
-        ? <ProposalDetail proposal={selected} onBack={()=>setSelected()} />
-        : <Proposals proposals={proposals} onSelect={setSelected} /> }
+      { selectedId
+        ? <ProposalDetail {...proposals.find(p=>p.id===selectedId)} onBack={()=>setSelectedId()} />
+        : <Proposals proposals={proposals} onSelect={setSelectedId} /> }
     </Main>
   )
 }
@@ -27,28 +27,29 @@ function Proposals({proposals, onSelect}){
     <section>
       <h2 size="xlarge">Proposals:</h2>
       <CardLayout columnWidthMin={30 * GU} rowHeight={250}>
-        {proposals.map((p)=><Proposal key={p.id} proposal={p} onSelect={onSelect} />)}
+        {proposals.map((p)=><Proposal key={p.id} {...p} onSelect={onSelect} />)}
       </CardLayout>
     </section>
   )
 }
 
-function Proposal({proposal, onSelect}){
+function Proposal({id, description, end, status, proposer, challenger, stake, reward, onSelect}){
   const { api, appState } = useAragonApi()
-  const [status, setStatus] = useState(proposal.status)
-  useEffect(()=>{
-    if([ACCEPT_ENDED, REJECT_ENDED].includes(proposal.status))
-      return
-
-    let checkStatus = setInterval(async ()=>{
-      const statusId = await api.call('statusOf', proposal.id).toPromise()
-      const status = statuses[statusId]
-      proposal.status = status
-      setStatus(status)
-      if([ACCEPT_ENDED, REJECT_ENDED].includes(status))
-        clearInterval(checkStatus)
-    }, 10000)
-  },[])
+  // const [status, setStatus] = useState(proposal.status)
+  // useEffect(()=>{
+  //   if([ACCEPT_ENDED, REJECT_ENDED].includes(proposal.status))
+  //     return
+  //
+  //   let checkStatus = setInterval(async ()=>{
+  //     const statusId = await api.call('statusOf', proposal.id).toPromise()
+  //     const status = statuses[statusId]
+  //     proposal.status = status
+  //     setStatus(status)
+  //     if([ACCEPT_ENDED, REJECT_ENDED].includes(status))
+  //       clearInterval(checkStatus)
+  //   }, 10000)
+  // },[])
+  console.log("status", status)
 
   return (
     <Card css={`
@@ -58,40 +59,39 @@ function Proposal({proposal, onSelect}){
         grid-gap: ${1 * GU}px;
         padding: ${3 * GU}px;
         cursor: pointer;
-    `} onClick={()=>onSelect(proposal)}>
+        align-items: start;
+    `} onClick={()=>onSelect(id)}>
       <header style={{display: "flex", justifyContent: "space-between"}}>
-        <Text color={theme.textTertiary}>#{proposal.id} </Text>
+        <Text color={theme.textTertiary}>#{id}</Text>
+        <Timer end={new Date(end)} />
         <IconArrowRight color={theme.textTertiary} />
       </header>
       <section>
-        <Text>{proposal.description}</Text>
-        <Text>{proposal.status}</Text>
-        <Text>{proposal.end.getTime()}</Text>
+        <Text>{description}</Text>
       </section>
-      {proposalState({status,proposal})}
+      {proposalState(status, id, proposer, reward, challenger, stake)}
     </Card>
   )
 }
 
-function proposalState({status, proposal}){
-  switch(status){
+function proposalState(status, id, proposer, reward, challenger, stake){
+  switch(statuses[status]){
     case PROPOSED:
-      return <Proposed {...proposal} />
+      return <Proposed id={id} />
     case CHALLENGED:
-      return <Challenged {...proposal} />
+      return <Challenged id={id} />
     case ACCEPTED:
-      return <Accepted {...proposal} />
+      return <Accepted id={id} proposer={proposer} reward={reward} />
     case REJECTED:
-      return <Rejected {...proposal} />
+      return <Rejected id={id} challenger={challenger} stake={stake} />
     case ACCEPT_ENDED:
-      return <AcceptEnded {...proposal} />
+      return <AcceptEnded />
     case REJECT_ENDED:
-      return <RejectEnded {...proposal} />
+      return <RejectEnded />
   }
 }
-// <Dynamic {...proposal} />
 
-function ProposalDetail({proposal, onBack}){
+function ProposalDetail({description, onBack}){
   const { api, appState } = useAragonApi()
   return (
     <React.Fragment>
@@ -99,7 +99,7 @@ function ProposalDetail({proposal, onBack}){
         <BackButton onClick={onBack} />
       </Bar>
       <section>
-        {proposal.description}
+        {description}
       </section>
     </React.Fragment>
   )
@@ -168,14 +168,5 @@ function RejectEnded() {
     <React.Fragment>
       <Info.Alert style={{"marginBottom": "10px"}}>{`Proposal ended rejected`}</Info.Alert>
     </React.Fragment>
-  )
-}
-
-export function Welcome({username}) {
-  return (
-    <div>
-      <Text.Block style={{ textAlign: 'center' }} size='large'>welcome, </Text.Block>
-      <Text.Block style={{ textAlign: 'center' }} size='xxlarge'>{username}</Text.Block>
-    </div>
   )
 }
