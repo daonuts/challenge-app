@@ -11,7 +11,7 @@
 		"@aragon/os": "^4.3.0",
 		"@aragon/ui": "^1.0.0-alpha.28",
 		"@daonuts/capped-voting": "^0.0.3",
-		"@daonuts/token": "^0.0.1",
+		"@daonuts/token": "^0.0.2",
 		"bignumber.js": "^9.0.0",
 		"core-js": "^3.1.4",
 		"react": "^16.8.6",
@@ -22,7 +22,7 @@
 	},
 	"devDependencies": {
 		"@aragon/apps-shared-migrations": "^1.0.0",
-		"@aragon/cli": "^6.2.6",
+		"@aragon/cli": "^6.3.3",
 		"@aragon/test-helpers": "^1.1.0",
 		"@babel/core": "^7.0.0-0",
 		"@babel/plugin-proposal-class-properties": "^7.5.5",

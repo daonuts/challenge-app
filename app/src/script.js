@@ -14,7 +14,7 @@ api.store(
     switch (event.event) {
       case 'Propose':
         let proposal = await marshalProposal(parseInt(event.returnValues.id), event.returnValues.script)
-        newState = {...state, proposals: [proposal].concat(state.proposals || [])}
+        newState = {...state, proposals: [proposal].concat(state.proposals)}
         break
       case 'Challenge':
         newState = {...state, proposals: await updateProposal(state.proposals, parseInt(event.returnValues.id))}
@@ -32,17 +32,20 @@ api.store(
     return newState
   },
   {
-    init: async function(){
+    init: async function(cachedState){
+
       return {
-        tokenManager: await api.call('tokenManager').toPromise(),
-        proposalStake: await api.call('proposalStake').toPromise(),
-        proposalReward: await api.call('proposalReward').toPromise(),
-        challengeFee: await api.call('challengeFee').toPromise(),
-        challengeTime: await api.call('challengeTime').toPromise(),
-        supportTime: await api.call('supportTime').toPromise(),
-        proposalDelay: await api.call('proposalDelay').toPromise(),
-        lastProposalDate: await api.call('lastProposalDate').toPromise(),
-        proposalsCount: await api.call('proposalsCount').toPromise(),
+        proposals: [],
+        tokenManager: cachedState.tokenManager || await api.call('tokenManager').toPromise(),
+        proposalStake: cachedState.proposalStake || await api.call('proposalStake').toPromise(),
+        proposalReward: cachedState.proposalReward || await api.call('proposalReward').toPromise(),
+        challengeFee: cachedState.challengeFee || await api.call('challengeFee').toPromise(),
+        challengeTime: cachedState.challengeTime || await api.call('challengeTime').toPromise(),
+        supportTime: cachedState.supportTime || await api.call('supportTime').toPromise(),
+        proposalDelay: cachedState.proposalDelay || await api.call('proposalDelay').toPromise(),
+        lastProposalDate: cachedState.lastProposalDate || await api.call('lastProposalDate').toPromise(),
+        proposalsCount: cachedState.proposalsCount || await api.call('proposalsCount').toPromise(),
+        ...cachedState
       }
     }
   }
