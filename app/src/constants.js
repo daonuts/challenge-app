@@ -6,6 +6,7 @@ let REJECTED = 'REJECTED'
 let ACCEPT_ENDED = 'ACCEPT_ENDED'
 let REJECT_ENDED = 'REJECT_ENDED'
 let statuses = [NONE, PROPOSED, CHALLENGED, ACCEPTED, REJECTED, ACCEPT_ENDED, REJECT_ENDED]
+let parameters = [null, "proposalStake", "proposalReward", "challengeFee", "challengeTime", "supportTime", "proposalDelay"]
 
 export {
   NONE,
@@ -15,5 +16,6 @@ export {
   REJECTED,
   ACCEPT_ENDED,
   REJECT_ENDED,
-  statuses
+  statuses,
+  parameters
 }

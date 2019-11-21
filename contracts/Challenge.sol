@@ -23,10 +23,12 @@ contract Challenge is IForwarder, AragonApp {
     }
 
     /// Events
-    event Propose(uint id, bytes script);
-    event Challenge(uint id);
-    event Support(uint id);
-    event End(uint id, bool success);
+    event Propose(uint indexed id, bytes script);
+    event Challenge(uint indexed id);
+    event Support(uint indexed id);
+    event End(uint indexed id, bool success);
+    event ParameterChange(uint indexed parameterId, uint value);
+
 
     /// State
     mapping (uint => Proposal) public proposals;
@@ -60,11 +62,17 @@ contract Challenge is IForwarder, AragonApp {
 
         tokenManager = TokenManager(_tokenManager);
         proposalStake = _proposalStake;
+        emit ParameterChange(1, _value);
         proposalReward = _proposalReward;
+        emit ParameterChange(2, _value);
         challengeFee = _challengeFee;
+        emit ParameterChange(3, _value);
         challengeTime = _challengeTime;
+        emit ParameterChange(4, uint(_value));
         supportTime = _supportTime;
+        emit ParameterChange(5, uint(_value));
         proposalDelay = _proposalDelay;
+        emit ParameterChange(6, uint(_value));
     }
 
     /**
@@ -177,23 +185,26 @@ contract Challenge is IForwarder, AragonApp {
     }
 
     /**
-     * @notice Change parameter:`_id`
-     * @param _id Parameter id
+     * @notice Change parameter:`_parameterId`
+     * @param _parameterId Parameter id
      * @param _value Parameter value
      */
-    function changeParameter(uint _id, uint _value) auth(MODIFY_PARAMETER_ROLE) public {
-        if(_id == 1)
+    function changeParameter(uint _parameterId, uint _value) auth(MODIFY_PARAMETER_ROLE) public {
+        if(_parameterId == 1)
             proposalStake = _value;
-        else if(_id == 2)
+        else if(_parameterId == 2)
             proposalReward = _value;
-        else if(_id == 3)
+        else if(_parameterId == 3)
             challengeFee = _value;
-        else if(_id == 4)
+        else if(_parameterId == 4)
             challengeTime = uint64(_value);
-        else if(_id == 5)
+        else if(_parameterId == 5)
             supportTime = uint64(_value);
-        else if(_id == 6)
+        else if(_parameterId == 6)
             proposalDelay = uint64(_value);
+        else
+            require( false, "INVALID_PARAMETER_ID" );
+        emit ParameterChange(_parameterId, _value);
     }
 
     function _execute(uint _id) internal {

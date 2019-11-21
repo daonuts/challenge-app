@@ -2,14 +2,14 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import AragonApi from '@aragon/api'
 
-import { statuses } from './constants'
+import { statuses, parameters } from './constants'
 import { NULL_ADDRESS, EMPTY_CALLSCRIPT } from './utils'
 
 const api = new AragonApi()
 
 api.store(
   async (state, event) => {
-    let newState, update
+    let newState, update, parameterId
 
     switch (event.event) {
       case 'Propose':
@@ -25,6 +25,10 @@ api.store(
       case 'End':
         newState = {...state, proposals: await updateProposal(state.proposals, parseInt(event.returnValues.id))}
         break
+      case 'ParameterChange':
+        update = { [parseInt(event.returnValues.parameterId)]: event.returnValues.value }
+        newState = {...state, update}
+        break
       default:
         newState = state
     }
@@ -36,15 +40,12 @@ api.store(
 
       return {
         proposals: [],
-        tokenManager: cachedState.tokenManager || await api.call('tokenManager').toPromise(),
-        proposalStake: cachedState.proposalStake || await api.call('proposalStake').toPromise(),
-        proposalReward: cachedState.proposalReward || await api.call('proposalReward').toPromise(),
-        challengeFee: cachedState.challengeFee || await api.call('challengeFee').toPromise(),
-        challengeTime: cachedState.challengeTime || await api.call('challengeTime').toPromise(),
-        supportTime: cachedState.supportTime || await api.call('supportTime').toPromise(),
-        proposalDelay: cachedState.proposalDelay || await api.call('proposalDelay').toPromise(),
-        lastProposalDate: cachedState.lastProposalDate || await api.call('lastProposalDate').toPromise(),
-        proposalsCount: cachedState.proposalsCount || await api.call('proposalsCount').toPromise(),
+        proposalStake: 0,
+        proposalReward: 0,
+        challengeFee: 0,
+        challengeTime: 0,
+        supportTime: 0,
+        proposalDelay: 0,
         ...cachedState
       }
     }
