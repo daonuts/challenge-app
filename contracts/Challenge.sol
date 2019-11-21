@@ -62,17 +62,17 @@ contract Challenge is IForwarder, AragonApp {
 
         tokenManager = TokenManager(_tokenManager);
         proposalStake = _proposalStake;
-        emit ParameterChange(1, _value);
+        emit ParameterChange(1, proposalStake);
         proposalReward = _proposalReward;
-        emit ParameterChange(2, _value);
+        emit ParameterChange(2, proposalReward);
         challengeFee = _challengeFee;
-        emit ParameterChange(3, _value);
+        emit ParameterChange(3, challengeFee);
         challengeTime = _challengeTime;
-        emit ParameterChange(4, uint(_value));
+        emit ParameterChange(4, uint(challengeTime));
         supportTime = _supportTime;
-        emit ParameterChange(5, uint(_value));
+        emit ParameterChange(5, uint(supportTime));
         proposalDelay = _proposalDelay;
-        emit ParameterChange(6, uint(_value));
+        emit ParameterChange(6, uint(proposalDelay));
     }
 
     /**

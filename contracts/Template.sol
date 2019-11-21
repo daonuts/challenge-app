@@ -69,7 +69,6 @@ contract Template is TemplateBase {
         ACL acl = ACL(dao.acl());
         acl.createPermission(this, dao, dao.APP_MANAGER_ROLE(), this);
 
-        address root = msg.sender;
         bytes32 challengeAppId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("challenge-app")));
         bytes32 cappedVotingAppId = keccak256(abi.encodePacked(apmNamehash("open"), keccak256("capped-voting-app")));
         bytes32 tokenManagerAppId = apmNamehash("token-manager");
@@ -79,9 +78,7 @@ contract Template is TemplateBase {
         TokenManager currencyManager = TokenManager(dao.newAppInstance(tokenManagerAppId, latestVersionAppBase(tokenManagerAppId)));
         CappedVoting voting = CappedVoting(dao.newAppInstance(cappedVotingAppId, latestVersionAppBase(cappedVotingAppId)));
 
-        /* MiniMeToken contrib = tokenFactory.createCloneToken(MiniMeToken(0), 0, "Contrib", 18, "CONTRIB", false); */
         Token contrib = new Token("Contrib", 18, "CONTRIB", false);
-        /* MiniMeToken currency = tokenFactory.createCloneToken(MiniMeToken(0), 0, "Currency", 18, "CURRENCY", true); */
         Token currency = new Token("Currency", 18, "CURRENCY", true);
         contrib.changeController(contribManager);
         currency.changeController(currencyManager);
@@ -97,39 +94,47 @@ contract Template is TemplateBase {
         voting.initialize(contrib, currency, uint64(60*PCT), uint64(15*PCT), uint64(1 minutes));
         emit InstalledApp(voting, cappedVotingAppId);
 
-        acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), root);
+        acl.createPermission(ANY_ENTITY, voting, voting.CREATE_VOTES_ROLE(), msg.sender);
 
-        acl.createPermission(ANY_ENTITY, challenge, challenge.PROPOSE_ROLE(), voting);
-        acl.createPermission(ANY_ENTITY, challenge, challenge.CHALLENGE_ROLE(), voting);
-        acl.createPermission(voting, challenge, challenge.SUPPORT_ROLE(), voting);
-        acl.createPermission(voting, challenge, challenge.MODIFY_PARAMETER_ROLE(), voting);
+        acl.createPermission(ANY_ENTITY, challenge, challenge.PROPOSE_ROLE(), msg.sender);
+        acl.createPermission(ANY_ENTITY, challenge, challenge.CHALLENGE_ROLE(), msg.sender);
+        acl.createPermission(voting, challenge, challenge.SUPPORT_ROLE(), msg.sender);
+
+        // This is causing 'execution error: undefined' error from ganache during gasEstimate
+        /* acl.createPermission(voting, challenge, challenge.MODIFY_PARAMETER_ROLE(), msg.sender); */
+
+        _cleanup(dao, contribManager, currencyManager, challenge);
+
+        emit DeployDao(dao);
+    }
+
+    function _cleanup(Kernel dao, TokenManager contribManager, TokenManager currencyManager, Challenge challenge) internal {
+        ACL acl = ACL(dao.acl());
 
         acl.createPermission(this, contribManager, contribManager.MINT_ROLE(), this);
         acl.createPermission(this, currencyManager, currencyManager.MINT_ROLE(), this);
 
-        contribManager.mint(root, 100000 * TOKEN_UNIT);
-        currencyManager.mint(root, 100000 * TOKEN_UNIT);
+        contribManager.mint(msg.sender, 100000 * TOKEN_UNIT);
+        currencyManager.mint(msg.sender, 100000 * TOKEN_UNIT);
         contribManager.mint(0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb, 100000*TOKEN_UNIT);
         currencyManager.mint(0x8401Eb5ff34cc943f096A32EF3d5113FEbE8D4Eb, 100000*TOKEN_UNIT);
         contribManager.mint(0x306469457266CBBe7c0505e8Aad358622235e768, 100000*TOKEN_UNIT);
         currencyManager.mint(0x306469457266CBBe7c0505e8Aad358622235e768, 100000*TOKEN_UNIT);
-        /* contribManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT); */
-        /* currencyManager.mint(0xd873F6DC68e3057e4B7da74c6b304d0eF0B484C7, 100000*TOKEN_UNIT); */
 
         acl.grantPermission(challenge, contribManager, contribManager.MINT_ROLE());
         acl.grantPermission(challenge, currencyManager, currencyManager.MINT_ROLE());
-        acl.createPermission(challenge, currencyManager, currencyManager.BURN_ROLE(), voting);
+        acl.createPermission(challenge, currencyManager, currencyManager.BURN_ROLE(), msg.sender);
 
-        // Clean up permissions
-        acl.grantPermission(root, dao, dao.APP_MANAGER_ROLE());
-        acl.revokePermission(this, dao, dao.APP_MANAGER_ROLE());
-        acl.setPermissionManager(root, dao, dao.APP_MANAGER_ROLE());
+        bytes32 APP_MANAGER_ROLE = dao.APP_MANAGER_ROLE();
+        bytes32 CREATE_PERMISSIONS_ROLE = acl.CREATE_PERMISSIONS_ROLE();
 
-        acl.grantPermission(root, acl, acl.CREATE_PERMISSIONS_ROLE());
-        acl.revokePermission(this, acl, acl.CREATE_PERMISSIONS_ROLE());
-        acl.setPermissionManager(root, acl, acl.CREATE_PERMISSIONS_ROLE());
+        acl.grantPermission(msg.sender, dao, APP_MANAGER_ROLE);
+        acl.revokePermission(this, dao, APP_MANAGER_ROLE);
+        acl.setPermissionManager(msg.sender, dao, APP_MANAGER_ROLE);
 
-        emit DeployDao(dao);
+        acl.grantPermission(msg.sender, acl, CREATE_PERMISSIONS_ROLE);
+        acl.revokePermission(this, acl, CREATE_PERMISSIONS_ROLE);
+        acl.setPermissionManager(msg.sender, acl, CREATE_PERMISSIONS_ROLE);
     }
 
 }

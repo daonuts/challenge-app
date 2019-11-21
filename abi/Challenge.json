@@ -402,7 +402,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "name": "id",
           "type": "uint256"
         },
@@ -419,7 +419,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "name": "id",
           "type": "uint256"
         }
@@ -431,7 +431,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "name": "id",
           "type": "uint256"
         }
@@ -443,7 +443,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "name": "id",
           "type": "uint256"
         },
@@ -454,6 +454,23 @@
         }
       ],
       "name": "End",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "parameterId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "ParameterChange",
       "type": "event"
     },
     {
@@ -608,7 +625,7 @@
       "constant": false,
       "inputs": [
         {
-          "name": "_id",
+          "name": "_parameterId",
           "type": "uint256"
         },
         {

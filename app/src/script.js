@@ -9,7 +9,7 @@ const api = new AragonApi()
 
 api.store(
   async (state, event) => {
-    let newState, update, parameterId
+    let newState, update, parameter
 
     switch (event.event) {
       case 'Propose':
@@ -26,8 +26,10 @@ api.store(
         newState = {...state, proposals: await updateProposal(state.proposals, parseInt(event.returnValues.id))}
         break
       case 'ParameterChange':
-        update = { [parseInt(event.returnValues.parameterId)]: event.returnValues.value }
-        newState = {...state, update}
+        parameter = parameters[event.returnValues.parameterId]
+        update = { [parameter]: event.returnValues.value }
+        console.log(update)
+        newState = {...state, ...update}
         break
       default:
         newState = state
