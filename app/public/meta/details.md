@@ -1,6 +1,1 @@
-An application for Aragon.
-
-**Features**
-- Feature \#1.
-- Feature \#2.
-- Feature \#3.
+Restrict Aragon dao actions to be taken only once vetted through a challenge period.
